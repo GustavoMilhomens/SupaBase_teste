@@ -1,10 +1,11 @@
 // ============================================
 // CONFIGURAÇÃO DO SUPABASE
 // ============================================
-// Credenciais do Supabase (necessárias para o site funcionar no GitHub Pages)
+// Credenciais são injetadas pelo GitHub Actions durante o deploy
+// Os valores ${SUPABASE_URL} e ${SUPABASE_KEY} são substituídos pelos secrets
 
-const SUPABASE_URL = 'https://fslqyyiythybpcqocdxq.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB';
+const SUPABASE_URL = '${SUPABASE_URL}';
+const SUPABASE_KEY = '${SUPABASE_KEY}';
 
 // Inicializar cliente Supabase
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
