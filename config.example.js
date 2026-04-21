@@ -5,6 +5,6 @@
 // O arquivo config.js está no .gitignore e NÃO será commitado
 
 window.SUPABASE_CONFIG = {
-    url: 'SUA_URL_AQUI',      // Ex: https://xxx.supabase.co
-    key: 'SUA_KEY_AQUI'       // Ex: sb_publishable_xxx
+    url: 'https://fslqyyiythybpcqocdxq.supabase.co',      // Ex: https://xxx.supabase.co
+    key: 'sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB'       // Ex: sb_publishable_xxx
 };
