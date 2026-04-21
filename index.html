@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase + GitHub Pages</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 Conexão Supabase</h1>
+        
+        <!-- Seção de Inserção de Dados -->
+        <section class="card">
+            <h2>Adicionar Item</h2>
+            <form id="addForm">
+                <input type="text" id="nome" placeholder="Nome" required>
+                <input type="text" id="descricao" placeholder="Descrição" required>
+                <button type="submit">Salvar</button>
+            </form>
+        </section>
+
+        <!-- Seção de Listagem -->
+        <!-- <section class="card">
+            <h2>Itens Cadastrados</h2>
+            <button id="loadBtn">Carregar Dados</button>
+            <ul id="itensList"></ul>
+        </section> -->
+
+        <!-- Status da Conexão -->
+        <div id="status" class="status">Conectando...</div>
+    </div>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
