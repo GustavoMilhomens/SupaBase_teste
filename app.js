@@ -1,17 +1,10 @@
 // ============================================
 // CONFIGURAÇÃO DO SUPABASE
 // ============================================
-// As credenciais são carregadas do arquivo config.js (ignorado pelo git)
-// Não commit o arquivo config.js - use config.example.js como modelo
+// Credenciais do Supabase (necessárias para o site funcionar no GitHub Pages)
 
-const SUPABASE_URL = window.SUPABASE_CONFIG?.url || '';
-const SUPABASE_KEY = window.SUPABASE_CONFIG?.key || '';
-
-// Verificar se as credenciais estão configuradas
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.error('⚠️ Credenciais do Supabase não configuradas!');
-    console.error('Crie um arquivo config.js com suas credenciais');
-}
+const SUPABASE_URL = 'https://fslqyyiythybpcqocdxq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB';
 
 // Inicializar cliente Supabase
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
