@@ -1,18 +1,19 @@
 // ============================================
 // CONFIGURAÇÃO DO SUPABASE
 // ============================================
-// Substitua pelos seus dados do Supabase:
-// 1. Acesse seu projeto em supabase.com
-// 2. Vá em Settings > API : https://fslqyyiythybpcqocdxq.supabase.co/rest/v1/
-// NEXT_PUBLIC_SUPABASE_URL=https://fslqyyiythybpcqocdxq.supabase.co
-// NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB
+// As credenciais são carregadas do arquivo config.js (ignorado pelo git)
+// Não commit o arquivo config.js - use config.example.js como modelo
 
-// 3. Copie a URL do projeto e a Key (anon/public)
+const SUPABASE_URL = window.SUPABASE_CONFIG?.url || '';
+const SUPABASE_KEY = window.SUPABASE_CONFIG?.key || '';
 
-const SUPABASE_URL = 'https://fslqyyiythybpcqocdxq.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB';
+// Verificar se as credenciais estão configuradas
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+    console.error('⚠️ Credenciais do Supabase não configuradas!');
+    console.error('Crie um arquivo config.js com suas credenciais');
+}
 
-// Inicializar cliente Supabase (abordagem segura)
+// Inicializar cliente Supabase
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ============================================

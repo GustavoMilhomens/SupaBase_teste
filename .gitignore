@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Environment variables (não commitar)
+.env
+.env.local
+.env.*.local
+config.js          # Contém credenciais - não commitar
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
