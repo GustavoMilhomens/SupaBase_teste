@@ -4,8 +4,12 @@
 // Credenciais são injetadas pelo GitHub Actions durante o deploy
 // Os valores ${SUPABASE_URL} e ${SUPABASE_KEY} são substituídos pelos secrets
 
-const SUPABASE_URL = '${SUPABASE_URL}';
-const SUPABASE_KEY = '${SUPABASE_KEY}';
+const { createClient } = require('@supabase/supabase-js');
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
 
 // Inicializar cliente Supabase
 window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
