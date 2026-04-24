@@ -6,13 +6,22 @@
 
 const { createClient } = require('@supabase/supabase-js');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Inicializar cliente Supabase
-window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+// Teste para ver se conectou
+async function testar() {
+  console.log('Conectado ao Supabase com sucesso!');
+  console.log('URL:', supabaseUrl);
+}
+
+testar();
+
 
 // ============================================
 // TABELA: itens (crie no Supabase)
