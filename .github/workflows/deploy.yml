@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Criar arquivo de configuração
+      - name: Criar config.js dinamicamente
         run: |
           echo "window.SUPABASE_CONFIG = {
             url: '${{ secrets.SUPABASE_URL }}',

@@ -1,117 +1,58 @@
-// ============================================
-// 1. CONFIGURAÇÃO E CONEXÃO (Substitua o topo do seu arquivo por isso)
-// ============================================
-
-// Pegamos os dados do arquivo config.js que o robô do GitHub criou
+// Aguarda as configurações injetadas
 const config = window.SUPABASE_CONFIG || {};
 
-// Variáveis para armazenar a conexão
 let supabaseClient;
 
-// Verificação de Segurança para evitar erros no console
+// Inicialização Segura
 if (typeof supabase === 'undefined') {
-    console.error("A biblioteca do Supabase não carregou!");
     document.getElementById('status').textContent = "❌ Erro: Biblioteca não carregada";
 } else if (!config.url || !config.key) {
-    console.error("As chaves não foram encontradas!");
-    document.getElementById('status').textContent = "❌ Erro: Chaves não configuradas";
+    document.getElementById('status').textContent = "❌ Erro: Chaves não configuradas no GitHub";
 } else {
-    // Inicializa o cliente se tudo estiver OK
     supabaseClient = supabase.createClient(config.url, config.key);
-    window.supabaseClient = supabaseClient; // Deixa disponível para as outras funções
-    console.log("Conectado com sucesso!");
+    console.log("Supabase inicializado!");
 }
 
-// ============================================
-// 2. FUNÇÕES DO APP (Mantenha o resto das suas funções abaixo)
-// ============================================
-
+// Funções
 async function checkConnection() {
+    if (!supabaseClient) return;
     const statusEl = document.getElementById('status');
-    if (!window.supabaseClient) return;
-
     try {
-        const { data, error } = await window.supabaseClient
-            .from('itens')
-            .select('id')
-            .limit(1);
-        
+        const { error } = await supabaseClient.from('itens').select('id').limit(1);
         if (error) throw error;
         statusEl.textContent = '✅ Conectado ao Supabase';
-        statusEl.className = 'status success';
+        statusEl.style.background = "rgba(78, 205, 196, 0.2)";
     } catch (err) {
-        statusEl.textContent = '❌ Erro: ' + err.message;
-        statusEl.className = 'status error';
+        statusEl.textContent = '❌ Erro de RLS ou Tabela: ' + err.message;
     }
 }
 
-// Carregar itens
 async function loadItens() {
+    if (!supabaseClient) return;
     const listEl = document.getElementById('itensList');
-    if (!window.supabaseClient) return;
-
     listEl.innerHTML = '<li>Carregando...</li>';
-    
-    const { data, error } = await window.supabaseClient
-        .from('itens')
-        .select('*')
-        .order('created_at', { ascending: false });
-    
+    const { data, error } = await supabaseClient.from('itens').select('*');
     if (error) {
-        listEl.innerHTML = '<li>Erro: ' + error.message + '</li>';
+        alert("Erro ao carregar: " + error.message);
         return;
     }
-    
-    listEl.innerHTML = data.map(item => `
-        <li>
-            <strong>${item.nome}</strong> - ${item.descricao}
-            <button onclick="deleteItem('${item.id}')">Excluir</button>
-        </li>
-    `).join('');
+    listEl.innerHTML = data.map(item => `<li>${item.nome} - ${item.descricao}</li>`).join('');
 }
 
-// Adicionar item
-async function addItem(event) {
-    event.preventDefault();
-    if (!window.supabaseClient) return;
-    
+async function addItem(e) {
+    e.preventDefault();
+    if (!supabaseClient) return;
     const nome = document.getElementById('nome').value;
     const descricao = document.getElementById('descricao').value;
-    
-    const { error } = await window.supabaseClient
-        .from('itens')
-        .insert([{ nome, descricao }]);
-    
-    if (error) {
-        alert('Erro: ' + error.message);
-        return;
+    const { error } = await supabaseClient.from('itens').insert([{ nome, descricao }]);
+    if (error) alert(error.message);
+    else {
+        document.getElementById('addForm').reset();
+        loadItens();
     }
-    
-    document.getElementById('addForm').reset();
-    loadItens();
 }
 
-// Excluir item
-async function deleteItem(id) {
-    if (!confirm('Confirmar exclusão?')) return;
-    if (!window.supabaseClient) return;
-    
-    const { error } = await window.supabaseClient
-        .from('itens')
-        .delete()
-        .eq('id', id);
-    
-    if (error) {
-        alert('Erro: ' + error.message);
-        return;
-    }
-    
-    loadItens();
-}
-
-// Inicialização
+// Eventos
 document.getElementById('addForm').addEventListener('submit', addItem);
 document.getElementById('loadBtn').addEventListener('click', loadItens);
-
-// Tenta verificar a conexão assim que carregar
 checkConnection();
