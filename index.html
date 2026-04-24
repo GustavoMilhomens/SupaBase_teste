@@ -157,13 +157,14 @@
         <div id="status" class="status">Conectando...</div>
     </div>
 
-    <!-- 1. Biblioteca do Supabase -->
-    <script src="https://jsdelivr.net"></script>
-    
-    <!-- 2. Arquivo gerado pelo GitHub Actions (não existirá na sua pasta local) -->
+    <!-- 1. Biblioteca do Supabase (Link alternativo da UNPKG que é muito estável) -->
+    <script src="https://unpkg.com"></script>
+
+    <!-- 2. Arquivo gerado pelo GitHub Actions -->
     <script src="config.js"></script>
 
-    <!-- 3. Seu código principal -->
-    <script src="app.js"></script>
+    <!-- 3. Seu código principal (coloque o 'defer' para garantir que carregue na ordem) -->
+    <script src="app.js" defer></script>
+
 </body>
 </html>
