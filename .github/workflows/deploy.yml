@@ -10,11 +10,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Instalar dependências
-        run: npm install
+      - name: Injetar variáveis no HTML
+        run: |
+          sed -i "s|PLACEHOLDER_URL|${{ secrets.SUPABASE_URL }}|g" index.html
+          sed -i "s|PLACEHOLDER_KEY|${{ secrets.SUPABASE_KEY }}|g" index.html
 
-      - name: Rodar aplicação
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: node app.js
+      - name: Deploy para GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
