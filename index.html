@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supabase + GitHub Pages</title>
+    <title>Supabase Seguro</title>
     <style>
-        /* ... Seu estilo CSS permanece igual ... */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .card { background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
-        form { display: flex; flex-direction: column; gap: 10px; }
-        input { padding: 12px; border-radius: 8px; border: 1px solid #4ecdc4; background: #16213e; color: #fff; }
-        button { padding: 12px; border-radius: 8px; background: #4ecdc4; font-weight: bold; cursor: pointer; }
-        #itensList { list-style: none; margin-top: 15px; }
-        #itensList li { padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .status { text-align: center; padding: 10px; border-radius: 8px; margin-top: 10px; }
+        body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 500px; width: 100%; }
+        .card { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: none; }
+        button { width: 100%; padding: 10px; background: #4ecdc4; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        #status { text-align: center; margin-top: 10px; font-size: 0.9rem; }
+        ul { list-style: none; padding: 0; }
+        li { background: rgba(255,255,255,0.05); padding: 10px; margin-bottom: 5px; border-radius: 5px; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🔌 Conexão Supabase</h1>
-        <section class="card">
-            <h2>Adicionar Item</h2>
+        <div class="card">
+            <h2>Novo Item</h2>
             <form id="addForm">
                 <input type="text" id="nome" placeholder="Nome" required>
                 <input type="text" id="descricao" placeholder="Descrição" required>
-                <button type="submit">Salvar</button>
+                <button type="submit">Salvar no Supabase</button>
             </form>
-        </section>
-        <section class="card">
-            <h2>Itens Cadastrados</h2>
-            <button id="loadBtn">Carregar Dados</button>
+        </div>
+
+        <div class="card">
+            <h2>Itens</h2>
             <ul id="itensList"></ul>
-        </section> 
-        <div id="status" class="status">Conectando...</div>
+        </div>
+        <div id="status">Iniciando...</div>
     </div>
 
-    <!-- 1. BIBLIOTECA OFICIAL SUPABASE (Link Corrigido) -->
-    <script src="https://jsdelivr.net"></script>
+    <script>
+        // Injeção de Variáveis pelo GitHub Actions
+        window.SUPABASE_CONFIG = {
+            url: "PLACEHOLDER_URL",
+            key: "PLACEHOLDER_KEY"
+        };
+    </script>
 
-    <!-- 2. CONFIGURAÇÃO (Gerada pelo GitHub Actions) -->
-    <script src="config.js"></script>
-
-    <!-- 3. SEU SCRIPT (Com defer para carregar após o HTML) -->
-    <script src="app.js" defer></script>
+    <!-- IMPORTANTE: type="module" permite usar o 'import' dentro do app.js -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>

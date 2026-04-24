@@ -10,12 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Criar config.js dinamicamente
+      - name: Injetar chaves no HTML
         run: |
-          echo "window.SUPABASE_CONFIG = {
-            url: '${{ secrets.SUPABASE_URL }}',
-            key: '${{ secrets.SUPABASE_KEY }}'
-          };" > config.js
+          sed -i "s|PLACEHOLDER_URL|${{ secrets.SUPABASE_URL }}|g" index.html
+          sed -i "s|PLACEHOLDER_KEY|${{ secrets.SUPABASE_KEY }}|g" index.html
 
       - name: Deploy para GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

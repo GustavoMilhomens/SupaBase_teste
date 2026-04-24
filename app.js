@@ -1,58 +1,63 @@
-// Aguarda as configurações injetadas
-const config = window.SUPABASE_CONFIG || {};
+// 1. Importa a biblioteca diretamente (evita erro de 'supabase is not defined')
+import { createClient } from 'https://jsdelivr.net'
 
-let supabaseClient;
+// 2. Configurações vindas do HTML
+const { url, key } = window.SUPABASE_CONFIG || {};
 
-// Inicialização Segura
-if (typeof supabase === 'undefined') {
-    document.getElementById('status').textContent = "❌ Erro: Biblioteca não carregada";
-} else if (!config.url || !config.key) {
-    document.getElementById('status').textContent = "❌ Erro: Chaves não configuradas no GitHub";
+let supabase;
+
+if (!url || url === "PLACEHOLDER_URL") {
+    document.getElementById('status').textContent = "⚠️ Aguardando deploy do GitHub...";
 } else {
-    supabaseClient = supabase.createClient(config.url, config.key);
-    console.log("Supabase inicializado!");
+    // 3. Inicializa o cliente
+    supabase = createClient(url, key);
+    document.getElementById('status').textContent = "✅ Conectado";
+    loadItens(); // Carrega os dados ao iniciar
 }
 
-// Funções
-async function checkConnection() {
-    if (!supabaseClient) return;
-    const statusEl = document.getElementById('status');
-    try {
-        const { error } = await supabaseClient.from('itens').select('id').limit(1);
-        if (error) throw error;
-        statusEl.textContent = '✅ Conectado ao Supabase';
-        statusEl.style.background = "rgba(78, 205, 196, 0.2)";
-    } catch (err) {
-        statusEl.textContent = '❌ Erro de RLS ou Tabela: ' + err.message;
-    }
-}
+// --- FUNÇÕES ---
 
 async function loadItens() {
-    if (!supabaseClient) return;
     const listEl = document.getElementById('itensList');
     listEl.innerHTML = '<li>Carregando...</li>';
-    const { data, error } = await supabaseClient.from('itens').select('*');
+    
+    const { data, error } = await supabase.from('itens').select('*').order('created_at', { ascending: false });
+    
     if (error) {
-        alert("Erro ao carregar: " + error.message);
+        listEl.innerHTML = '<li>Erro ao carregar dados</li>';
         return;
     }
-    listEl.innerHTML = data.map(item => `<li>${item.nome} - ${item.descricao}</li>`).join('');
+    
+    listEl.innerHTML = data.map(item => `
+        <li>
+            <span><strong>${item.nome}</strong>: ${item.descricao}</span>
+            <button onclick="window.deleteItem('${item.id}')" style="width: auto; background: #ff6b6b; margin: 0; padding: 5px 10px;">X</button>
+        </li>
+    `).join('');
 }
 
 async function addItem(e) {
     e.preventDefault();
-    if (!supabaseClient) return;
     const nome = document.getElementById('nome').value;
     const descricao = document.getElementById('descricao').value;
-    const { error } = await supabaseClient.from('itens').insert([{ nome, descricao }]);
-    if (error) alert(error.message);
-    else {
+
+    const { error } = await supabase.from('itens').insert([{ nome, descricao }]);
+
+    if (error) {
+        alert("Erro: " + error.message);
+    } else {
         document.getElementById('addForm').reset();
         loadItens();
     }
 }
 
+// Tornamos a função de deletar global para o botão do HTML conseguir acessar
+window.deleteItem = async (id) => {
+    if (!confirm("Deletar item?")) return;
+    const { error } = await supabase.from('itens').delete().eq('id', id);
+    if (error) alert(error.message);
+    else loadItens();
+};
+
 // Eventos
 document.getElementById('addForm').addEventListener('submit', addItem);
-document.getElementById('loadBtn').addEventListener('click', loadItens);
-checkConnection();
