@@ -21,11 +21,11 @@ async function loadItens() {
     listEl.innerHTML = data.map(item => `
         <li>
             <span><strong>${item.nome}</strong>: ${item.descricao}</span>
-            <button onclick="window.deleteItem('${item.id}')" style="width: auto; background: #ff6b6b; margin: 0; padding: 5px 10px;">X</button>
+
         </li>
     `).join('');
 }
-
+// <button onclick="window.deleteItem('${item.id}')" style="width: auto; background: #ff6b6b; margin: 0; padding: 5px 10px;">X</button>
 async function addItem(e) {
     e.preventDefault();
     const nome = document.getElementById('nome').value;
