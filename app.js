@@ -1,19 +1,9 @@
-// 1. Importa a biblioteca diretamente (evita erro de 'supabase is not defined')
-import { createClient } from 'https://jsdelivr.net'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
 
-// 2. Configurações vindas do HTML
-const { url, key } = window.SUPABASE_CONFIG || {};
-
-let supabase;
-
-if (!url || url === "PLACEHOLDER_URL") {
-    document.getElementById('status').textContent = "⚠️ Aguardando deploy do GitHub...";
-} else {
-    // 3. Inicializa o cliente
-    supabase = createClient(url, key);
-    document.getElementById('status').textContent = "✅ Conectado";
-    loadItens(); // Carrega os dados ao iniciar
-}
+const supabase = createClient(
+'https://fslqyyiythybpcqocdxq.supabase.co',
+'sb_publishable_2PgVjZJUkvTCee3qWbLu9w_x3R1N7VB'
+)
 
 // --- FUNÇÕES ---
 
