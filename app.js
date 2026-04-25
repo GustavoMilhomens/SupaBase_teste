@@ -42,12 +42,12 @@ async function addItem(e) {
 }
 
 // Tornamos a função de deletar global para o botão do HTML conseguir acessar
-window.deleteItem = async (id) => {
-    if (!confirm("Deletar item?")) return;
-    const { error } = await supabase.from('itens').delete().eq('id', id);
-    if (error) alert(error.message);
-    else loadItens();
-};
+// window.deleteItem = async (id) => {
+//     if (!confirm("Deletar item?")) return;
+//     const { error } = await supabase.from('itens').delete().eq('id', id);
+//     if (error) alert(error.message);
+//     else loadItens();
+// };
 
 // Eventos
 document.getElementById('addForm').addEventListener('submit', addItem);
