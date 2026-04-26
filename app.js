@@ -51,3 +51,4 @@ async function addItem(e) {
 
 // Eventos
 document.getElementById('addForm').addEventListener('submit', addItem);
+document.getElementById('btnCarregar').addEventListener('click', loadItens);
